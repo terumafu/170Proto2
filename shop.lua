@@ -24,12 +24,26 @@ function Shop:draw()
     local x = love.graphics.getWidth() - 300
     local y = 100
     love.graphics.print("Shop (Gold: " .. player.gold .. ")", x, y - 30)
-
     for i, item in ipairs(self.items) do
         local text = i .. ". " .. item.name .. " (" .. item.type .. ") - " .. item.cost .. "G"
         love.graphics.print(text, x, y + (i - 1) * 20)
     end
+    
+    love.graphics.print("Upgrades (Hold Shift)", x, y + 300) 
+    love.graphics.print("50 gold each", x, y + 320)
+    showAvailableUpgrade(Inventory.slots.leftArm, "1. " ,  x, y + 360)
+    showAvailableUpgrade(Inventory.slots.rightArm, "2. " ,x, y + 380)
+    showAvailableUpgrade(Inventory.slots.head,"3. ", x, y + 400)
+    showAvailableUpgrade(Inventory.slots.legs,"4. ", x, y + 420)
+    love.graphics.print("5. Total Health + 10", x, y + 440)
 end
+
+function showAvailableUpgrade(bodypart, position, x, y)
+  if bodypart then
+    love.graphics.print(position .. bodypart.name, x, y)
+  end
+end
+
 
 function Shop:buy(index)
     local item = self.items[index]
@@ -46,6 +60,33 @@ function Shop:buy(index)
     messageTimer = MESSAGE_DURATION
 end
 
+function Shop:upgrade(index)
+  if index >= 1 and index <= 4 then -- upgrading a body part 
+    local indexOfBodyParts = {Inventory.slots.leftArm, 
+                              Inventory.slots.rightArm, 
+                              Inventory.slots.head, 
+                              Inventory.slots.legs,
+                             }
+    local skillToUpgrade = indexOfBodyParts[index]                         
+    if skillToUpgrade and player.gold >= 50 then
+      if skillToUpgrade.damage then 
+        skillToUpgrade.damage = skillToUpgrade.damage + 10
+      elseif skillToUpgrade.heal then
+        skillToUpgrade.heal = skillToUpgrade.heal + 10
+      end
+      player.gold = player.gold - 50
+      
+    end
+  end
+  
+  if index == 5 and player.gold >= 50 then
+    player.health = player.health + 10
+    player.maxHealth = player.maxHealth + 10
+    player.gold = player.gold - 50
+  end
+    
+end
+
 function Shop:sell(index)
     local item = Inventory.slots.bag[index]
     if item then
@@ -58,5 +99,4 @@ function Shop:sell(index)
         messageTimer = MESSAGE_DURATION
     end
 end
-
 return Shop

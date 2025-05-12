@@ -136,7 +136,11 @@ function love.keypressed(key)
             gameState = "menu"
         elseif tonumber(key) then
             local index = tonumber(key)
-            Shop:buy(index)
+            if love.keyboard.isDown("lshift") then
+              Shop:upgrade(index)
+            else 
+              Shop:buy(index)
+            end
         end
     elseif gameState == "encounter" then
         if turn ~= "player" or player.health <= 0 or enemy.health <= 0 then
