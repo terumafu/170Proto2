@@ -29,13 +29,14 @@ function Shop:draw()
         love.graphics.print(text, x, y + (i - 1) * 20)
     end
     
-    love.graphics.print("Upgrades (Hold Shift)", x, y + 300) 
+    love.graphics.print("Upgrades", x, y + 300) 
     love.graphics.print("50 gold each", x, y + 320)
-    showAvailableUpgrade(Inventory.slots.leftArm, "1. " ,  x, y + 360)
-    showAvailableUpgrade(Inventory.slots.rightArm, "2. " ,x, y + 380)
-    showAvailableUpgrade(Inventory.slots.head,"3. ", x, y + 400)
-    showAvailableUpgrade(Inventory.slots.legs,"4. ", x, y + 420)
-    love.graphics.print("5. Total Health + 10", x, y + 440)
+    showAvailableUpgrade(Inventory.slots.leftArm, "Shift + 1. " ,  x, y + 360)
+    showAvailableUpgrade(Inventory.slots.rightArm, "Shift + 2. " ,x, y + 380)
+    showAvailableUpgrade(Inventory.slots.head,"Shift + 3. ", x, y + 400)
+    showAvailableUpgrade(Inventory.slots.legs,"Shift + 4. ", x, y + 420)
+    love.graphics.print("Shift + 5. Total Health + 10", x, y + 440)
+    love.graphics.print("Press B to go back", x, y + 480)
 end
 
 function showAvailableUpgrade(bodypart, position, x, y)
